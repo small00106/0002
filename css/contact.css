@@ -46,7 +46,7 @@
   border:2px solid transparent;
   border-radius:var(--radius-sm);
   outline:none;
-  transition:all var(--transition-base);
+  transition:border-color var(--transition-base),background var(--transition-base),box-shadow var(--transition-base);
 }
 .form-group input:focus,
 .form-group textarea:focus{

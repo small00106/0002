@@ -9,13 +9,19 @@
   var pages = {
     home: function(){ return renderHome(); },
     about: function(){ return renderAbout(); },
-    contact: function(){ return renderContact(); }
+    contact: function(){ return renderContact(); },
+    services: function(){ return renderServices(); },
+    portfolio: function(){ return renderPortfolio(); },
+    faq: function(){ return renderFaq(); }
   };
 
   var pageTitles = {
     home: 'Verdant Studio',
     about: 'About - Verdant Studio',
-    contact: 'Contact - Verdant Studio'
+    contact: 'Contact - Verdant Studio',
+    services: 'Services - Verdant Studio',
+    portfolio: 'Portfolio - Verdant Studio',
+    faq: 'FAQ - Verdant Studio'
   };
 
   function renderHome(){
@@ -218,6 +224,195 @@
     +'</section>';
   }
 
+  function renderServices(){
+    return '<section class="page-hero">'
+      +'<h1 class="page-hero__title">Our Services</h1>'
+      +'<p class="page-hero__desc">Comprehensive solutions tailored to your digital needs</p>'
+    +'</section>'
+    +'<section class="services">'
+      +'<div class="services__grid">'
+        +'<div class="service-card">'
+          +'<div class="service-card__icon">'
+            +'<svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>'
+          +'</div>'
+          +'<h3 class="service-card__title">Brand Identity</h3>'
+          +'<p class="service-card__desc">Crafting memorable brand systems that resonate with your audience and stand the test of time.</p>'
+          +'<ul class="service-card__list"><li>Logo & Visual Identity</li><li>Brand Guidelines</li><li>Design Systems</li></ul>'
+        +'</div>'
+        +'<div class="service-card">'
+          +'<div class="service-card__icon">'
+            +'<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>'
+          +'</div>'
+          +'<h3 class="service-card__title">Web Development</h3>'
+          +'<p class="service-card__desc">Building performant, accessible, and scalable web applications with modern technologies.</p>'
+          +'<ul class="service-card__list"><li>Frontend Architecture</li><li>Performance Optimization</li><li>Accessibility Audits</li></ul>'
+        +'</div>'
+        +'<div class="service-card">'
+          +'<div class="service-card__icon">'
+            +'<svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>'
+          +'</div>'
+          +'<h3 class="service-card__title">UX Design</h3>'
+          +'<p class="service-card__desc">Research-driven design that puts users first, creating intuitive and delightful experiences.</p>'
+          +'<ul class="service-card__list"><li>User Research</li><li>Wireframing & Prototyping</li><li>Usability Testing</li></ul>'
+        +'</div>'
+        +'<div class="service-card">'
+          +'<div class="service-card__icon">'
+            +'<svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>'
+          +'</div>'
+          +'<h3 class="service-card__title">Motion & Animation</h3>'
+          +'<p class="service-card__desc">Bringing interfaces to life with purposeful motion that guides and delights users.</p>'
+          +'<ul class="service-card__list"><li>Micro-interactions</li><li>Page Transitions</li><li>SVG Animation</li></ul>'
+        +'</div>'
+        +'<div class="service-card">'
+          +'<div class="service-card__icon">'
+            +'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>'
+          +'</div>'
+          +'<h3 class="service-card__title">Digital Strategy</h3>'
+          +'<p class="service-card__desc">Aligning design and technology with your business objectives for measurable impact.</p>'
+          +'<ul class="service-card__list"><li>Product Roadmapping</li><li>Analytics & Insights</li><li>Growth Optimization</li></ul>'
+        +'</div>'
+        +'<div class="service-card">'
+          +'<div class="service-card__icon">'
+            +'<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
+          +'</div>'
+          +'<h3 class="service-card__title">Consulting</h3>'
+          +'<p class="service-card__desc">Expert guidance for teams looking to level up their design and engineering practices.</p>'
+          +'<ul class="service-card__list"><li>Design Audits</li><li>Team Workshops</li><li>Technical Reviews</li></ul>'
+        +'</div>'
+      +'</div>'
+    +'</section>';
+  }
+
+  function renderPortfolio(){
+    return '<section class="page-hero">'
+      +'<h1 class="page-hero__title">Our Portfolio</h1>'
+      +'<p class="page-hero__desc">Selected work from projects we are proud of</p>'
+    +'</section>'
+    +'<section class="portfolio">'
+      +'<div class="portfolio__grid">'
+        +'<div class="portfolio-card">'
+          +'<div class="portfolio-card__media" style="background:linear-gradient(135deg,#1a2f23,#2a4a38)"><div class="portfolio-card__badge">Web App</div></div>'
+          +'<div class="portfolio-card__body">'
+            +'<h3 class="portfolio-card__title">Fintech Dashboard</h3>'
+            +'<p class="portfolio-card__desc">A comprehensive financial management platform with real-time analytics and intuitive data visualization.</p>'
+            +'<div class="portfolio-card__tags"><span>React</span><span>D3.js</span><span>Design System</span></div>'
+          +'</div>'
+        +'</div>'
+        +'<div class="portfolio-card">'
+          +'<div class="portfolio-card__media" style="background:linear-gradient(135deg,#3d2f1a,#6b5533)"><div class="portfolio-card__badge">E-commerce</div></div>'
+          +'<div class="portfolio-card__body">'
+            +'<h3 class="portfolio-card__title">Luxury Retail Site</h3>'
+            +'<p class="portfolio-card__desc">An immersive shopping experience for a premium fashion brand, blending elegance with performance.</p>'
+            +'<div class="portfolio-card__tags"><span>Next.js</span><span>GSAP</span><span>Headless CMS</span></div>'
+          +'</div>'
+        +'</div>'
+        +'<div class="portfolio-card">'
+          +'<div class="portfolio-card__media" style="background:linear-gradient(135deg,#1a2f2f,#2a5a5a)"><div class="portfolio-card__badge">Mobile</div></div>'
+          +'<div class="portfolio-card__body">'
+            +'<h3 class="portfolio-card__title">Health & Wellness App</h3>'
+            +'<p class="portfolio-card__desc">A holistic wellness companion featuring habit tracking, guided meditation, and personalized insights.</p>'
+            +'<div class="portfolio-card__tags"><span>React Native</span><span>UX Research</span><span>Motion</span></div>'
+          +'</div>'
+        +'</div>'
+        +'<div class="portfolio-card">'
+          +'<div class="portfolio-card__media" style="background:linear-gradient(135deg,#2f1a2f,#5a2a5a)"><div class="portfolio-card__badge">Brand</div></div>'
+          +'<div class="portfolio-card__body">'
+            +'<h3 class="portfolio-card__title">Tech Startup Rebrand</h3>'
+            +'<p class="portfolio-card__desc">Complete brand identity redesign for an AI startup, including guidelines and marketing collateral.</p>'
+            +'<div class="portfolio-card__tags"><span>Branding</span><span>Design System</span><span>Illustration</span></div>'
+          +'</div>'
+        +'</div>'
+        +'<div class="portfolio-card">'
+          +'<div class="portfolio-card__media" style="background:linear-gradient(135deg,#2f2f1a,#5a5a2a)"><div class="portfolio-card__badge">SaaS</div></div>'
+          +'<div class="portfolio-card__body">'
+            +'<h3 class="portfolio-card__title">Project Management Tool</h3>'
+            +'<p class="portfolio-card__desc">A collaborative workspace platform with real-time updates, Kanban boards, and team analytics.</p>'
+            +'<div class="portfolio-card__tags"><span>Vue.js</span><span>WebSockets</span><span>Accessibility</span></div>'
+          +'</div>'
+        +'</div>'
+        +'<div class="portfolio-card">'
+          +'<div class="portfolio-card__media" style="background:linear-gradient(135deg,#1a1a2f,#2a2a5a)"><div class="portfolio-card__badge">3D / WebGL</div></div>'
+          +'<div class="portfolio-card__body">'
+            +'<h3 class="portfolio-card__title">Virtual Gallery Experience</h3>'
+            +'<p class="portfolio-card__desc">An immersive 3D art gallery with interactive exhibits and spatial audio narration.</p>'
+            +'<div class="portfolio-card__tags"><span>Three.js</span><span>WebGL</span><span>Spatial Audio</span></div>'
+          +'</div>'
+        +'</div>'
+      +'</div>'
+    +'</section>';
+  }
+
+  function renderFaq(){
+    return '<section class="page-hero">'
+      +'<h1 class="page-hero__title">Frequently Asked Questions</h1>'
+      +'<p class="page-hero__desc">Answers to common questions about working with us</p>'
+    +'</section>'
+    +'<section class="faq">'
+      +'<div class="faq__list">'
+        +'<div class="faq-item">'
+          +'<button class="faq-item__question" aria-expanded="false">'
+            +'<span>What is your typical project timeline?</span>'
+            +'<svg viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+          +'</button>'
+          +'<div class="faq-item__answer"><p>Project timelines vary based on scope and complexity. A typical branding engagement takes 4-6 weeks, while a full web application may require 2-4 months. During our initial consultation, we provide a detailed timeline tailored to your specific needs.</p></div>'
+        +'</div>'
+        +'<div class="faq-item">'
+          +'<button class="faq-item__question" aria-expanded="false">'
+            +'<span>How do you handle pricing and billing?</span>'
+            +'<svg viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+          +'</button>'
+          +'<div class="faq-item__answer"><p>We work on a fixed-price basis for most projects, with payment structured in milestones (typically 30% deposit, 40% mid-project, 30% on completion). For ongoing partnerships, we also offer monthly retainer arrangements. All pricing is discussed upfront with no hidden fees.</p></div>'
+        +'</div>'
+        +'<div class="faq-item">'
+          +'<button class="faq-item__question" aria-expanded="false">'
+            +'<span>Do you work with startups and small businesses?</span>'
+            +'<svg viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+          +'</button>'
+          +'<div class="faq-item__answer"><p>Absolutely. We have extensive experience working with early-stage startups and growing businesses. We can tailor our scope and deliverables to match your budget and stage, and we even offer equity arrangements for exceptional early-stage ventures.</p></div>'
+        +'</div>'
+        +'<div class="faq-item">'
+          +'<button class="faq-item__question" aria-expanded="false">'
+            +'<span>What is your design and development process?</span>'
+            +'<svg viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+          +'</button>'
+          +'<div class="faq-item__answer"><p>Our process is collaborative and iterative: 1) Discovery & Research, 2) Strategy & Wireframing, 3) Visual Design, 4) Development & Testing, 5) Launch & Support. We maintain regular communication throughout, with weekly demos and opportunities for feedback at every stage.</p></div>'
+        +'</div>'
+        +'<div class="faq-item">'
+          +'<button class="faq-item__question" aria-expanded="false">'
+            +'<span>Do you provide ongoing support after launch?</span>'
+            +'<svg viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+          +'</button>'
+          +'<div class="faq-item__answer"><p>Yes, we provide 30 days of complimentary bug-fix support after every project launch. Beyond that, we offer flexible maintenance and support retainers that cover updates, security patches, performance monitoring, and feature enhancements.</p></div>'
+        +'</div>'
+        +'<div class="faq-item">'
+          +'<button class="faq-item__question" aria-expanded="false">'
+            +'<span>How do I get started with a project?</span>'
+            +'<svg viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+          +'</button>'
+          +'<div class="faq-item__answer"><p>Simply reach out through our contact form or email us at hello@verdantstudio.io. We schedule a free 30-minute consultation to understand your goals, then follow up with a detailed proposal and estimate within 2-3 business days.</p></div>'
+        +'</div>'
+      +'</div>'
+    +'</section>';
+  }
+
+  function initFaq(){
+    var questions = document.querySelectorAll('.faq-item__question');
+    questions.forEach(function(q){
+      q.addEventListener('click', function(){
+        var item = q.closest('.faq-item');
+        var isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(function(i){
+          i.classList.remove('open');
+          i.querySelector('.faq-item__question').setAttribute('aria-expanded','false');
+        });
+        if(!isOpen){
+          item.classList.add('open');
+          q.setAttribute('aria-expanded','true');
+        }
+      });
+    });
+  }
+
   function getRoute(){
     var hash = window.location.hash.replace('#','') || 'home';
     return pages[hash] ? hash : 'home';
@@ -264,6 +459,9 @@
     }
     if(page === 'about'){
       initScrollAnimations();
+    }
+    if(page === 'faq'){
+      initFaq();
     }
   }
 
