@@ -1,0 +1,25 @@
+:root{
+  --color-primary:#1a2f23;
+  --color-primary-light:#2a4a38;
+  --color-accent:#c8a45c;
+  --color-accent-light:#d4b97a;
+  --color-bg:#f5f0e8;
+  --color-bg-alt:#ebe4d8;
+  --color-text:#2c2c2c;
+  --color-text-light:#6b6b6b;
+  --color-white:#ffffff;
+  --color-overlay:rgba(26,47,35,0.85);
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'DM Sans','Segoe UI',sans-serif;
+  --nav-height:72px;
+  --radius-sm:6px;
+  --radius-md:12px;
+  --radius-lg:20px;
+  --shadow-sm:0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md:0 4px 20px rgba(0,0,0,0.1);
+  --shadow-lg:0 8px 40px rgba(0,0,0,0.15);
+  --transition-fast:0.2s ease;
+  --transition-base:0.3s ease;
+  --transition-slow:0.5s ease;
+  --max-width:1200px;
+}
