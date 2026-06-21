@@ -16,38 +16,64 @@
 <header class="admin-header">
   <div class="admin-header__inner">
     <a href="/" class="admin-header__logo">Verdant<span>.</span> Admin</a>
-    <div class="admin-header__stats">
+    <div class="admin-header__stats" id="headerStats">
       <span class="admin-header__stat" id="statTotal">0 Messages</span>
       <span class="admin-header__stat admin-header__stat--unread" id="statUnread">0 Unread</span>
+    </div>
+    <div class="admin-header__user" id="headerUser" style="display:none;">
+      <span class="admin-header__username" id="usernameDisplay"></span>
+      <button class="admin-btn admin-btn--logout" id="logoutBtn">Logout</button>
     </div>
   </div>
 </header>
 
 <main class="admin-main">
-  <div class="admin-toolbar">
-    <div class="admin-toolbar__left">
-      <h1 class="admin-toolbar__title">Contact Messages</h1>
-    </div>
-    <div class="admin-toolbar__right">
-      <select class="admin-filter" id="filterSelect">
-        <option value="all">All Messages</option>
-        <option value="unread">Unread Only</option>
-        <option value="read">Read Only</option>
-      </select>
-      <button class="admin-btn admin-btn--secondary" id="refreshBtn">
-        <svg viewBox="0 0 24 24" width="16" height="16"><path d="M23 4v6h-6M1 20v-6h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Refresh
-      </button>
+
+  <div class="admin-login" id="loginView">
+    <div class="admin-login__card">
+      <h1 class="admin-login__title">Admin Login</h1>
+      <p class="admin-login__subtitle">Sign in to manage messages</p>
+      <form class="admin-login__form" id="loginForm">
+        <div class="admin-login__field">
+          <label class="admin-login__label" for="loginUsername">Username</label>
+          <input class="admin-login__input" type="text" id="loginUsername" name="username" autocomplete="username" required>
+        </div>
+        <div class="admin-login__field">
+          <label class="admin-login__label" for="loginPassword">Password</label>
+          <input class="admin-login__input" type="password" id="loginPassword" name="password" autocomplete="current-password" required>
+        </div>
+        <button class="admin-btn admin-btn--primary admin-login__submit" type="submit" id="loginSubmitBtn">Sign In</button>
+      </form>
     </div>
   </div>
 
-  <div class="admin-list" id="messageList">
-    <div class="admin-empty" id="emptyState">
-      <svg viewBox="0 0 24 24" width="48" height="48"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <p>No messages yet</p>
-      <span>When visitors send messages from the contact page, they will appear here.</span>
+  <div class="admin-dashboard" id="dashboardView" style="display:none;">
+    <div class="admin-toolbar">
+      <div class="admin-toolbar__left">
+        <h1 class="admin-toolbar__title">Contact Messages</h1>
+      </div>
+      <div class="admin-toolbar__right">
+        <select class="admin-filter" id="filterSelect">
+          <option value="all">All Messages</option>
+          <option value="unread">Unread Only</option>
+          <option value="read">Read Only</option>
+        </select>
+        <button class="admin-btn admin-btn--secondary" id="refreshBtn">
+          <svg viewBox="0 0 24 24" width="16" height="16"><path d="M23 4v6h-6M1 20v-6h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Refresh
+        </button>
+      </div>
+    </div>
+
+    <div class="admin-list" id="messageList">
+      <div class="admin-empty" id="emptyState">
+        <svg viewBox="0 0 24 24" width="48" height="48"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p>No messages yet</p>
+        <span>When visitors send messages from the contact page, they will appear here.</span>
+      </div>
     </div>
   </div>
+
 </main>
 
 <script src="js/admin.js"></script>

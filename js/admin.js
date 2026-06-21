@@ -1,12 +1,25 @@
 (function () {
+  var API_BASE = window.location.origin;
+
+  var loginView = document.getElementById('loginView');
+  var dashboardView = document.getElementById('dashboardView');
+  var loginForm = document.getElementById('loginForm');
+  var loginUsername = document.getElementById('loginUsername');
+  var loginPassword = document.getElementById('loginPassword');
+  var loginSubmitBtn = document.getElementById('loginSubmitBtn');
+  var logoutBtn = document.getElementById('logoutBtn');
+  var headerStats = document.getElementById('headerStats');
+  var headerUser = document.getElementById('headerUser');
+  var usernameDisplay = document.getElementById('usernameDisplay');
+
   var listEl = document.getElementById('messageList');
-  var emptyEl = document.getElementById('emptyState');
   var filterEl = document.getElementById('filterSelect');
   var refreshBtn = document.getElementById('refreshBtn');
   var statTotal = document.getElementById('statTotal');
   var statUnread = document.getElementById('statUnread');
 
   var allMessages = [];
+  var currentUser = null;
 
   function formatTime(iso) {
     var d = new Date(iso);
@@ -90,18 +103,25 @@
     });
   }
 
-  var API_BASE = window.location.origin;
-
   function loadMessages() {
-    fetch(API_BASE + '/api/messages')
-      .then(function (res) { return res.json(); })
+    fetch(API_BASE + '/api/messages', { credentials: 'include' })
+      .then(function (res) {
+        if (res.status === 401) {
+          showLoginView();
+          throw new Error('Unauthorized');
+        }
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
       .then(function (data) {
         allMessages = data;
         updateStats(allMessages);
         applyFilter();
       })
-      .catch(function () {
-        showToast('Failed to load messages');
+      .catch(function (err) {
+        if (err.message !== 'Unauthorized') {
+          showToast('Failed to load messages');
+        }
       });
   }
 
@@ -116,6 +136,103 @@
     renderMessages(filtered);
   }
 
+  function showLoginView() {
+    loginView.style.display = '';
+    dashboardView.style.display = 'none';
+    headerStats.style.display = 'none';
+    headerUser.style.display = 'none';
+    currentUser = null;
+  }
+
+  function showDashboardView(username) {
+    loginView.style.display = 'none';
+    dashboardView.style.display = '';
+    headerStats.style.display = '';
+    headerUser.style.display = '';
+    usernameDisplay.textContent = username;
+    currentUser = username;
+    loadMessages();
+  }
+
+  function checkAuthStatus() {
+    fetch(API_BASE + '/api/auth/status', { credentials: 'include' })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data.authenticated) {
+          showDashboardView(data.username);
+        } else {
+          showLoginView();
+        }
+      })
+      .catch(function () {
+        showLoginView();
+      });
+  }
+
+  function handleLogin(e) {
+    e.preventDefault();
+    var username = loginUsername.value.trim();
+    var password = loginPassword.value.trim();
+
+    if (!username || !password) {
+      showToast('Please enter username and password');
+      return;
+    }
+
+    loginSubmitBtn.disabled = true;
+    loginSubmitBtn.textContent = 'Signing in...';
+
+    fetch(API_BASE + '/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ username: username, password: password })
+    })
+      .then(function (res) {
+        if (!res.ok) {
+          return res.json().then(function (data) {
+            throw new Error(data.error || 'Login failed');
+          });
+        }
+        return res.json();
+      })
+      .then(function (data) {
+        showToast('Login successful');
+        showDashboardView(data.username);
+        loginForm.reset();
+      })
+      .catch(function (err) {
+        showToast(err.message || 'Login failed');
+      })
+      .finally(function () {
+        loginSubmitBtn.disabled = false;
+        loginSubmitBtn.textContent = 'Sign In';
+      });
+  }
+
+  function handleLogout() {
+    if (!confirm('Are you sure you want to logout?')) return;
+
+    fetch(API_BASE + '/api/logout', {
+      method: 'POST',
+      credentials: 'include'
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
+      .then(function () {
+        showToast('Logged out');
+        showLoginView();
+      })
+      .catch(function () {
+        showToast('Logout failed');
+      });
+  }
+
+  loginForm.addEventListener('submit', handleLogin);
+  logoutBtn.addEventListener('click', handleLogout);
+
   listEl.addEventListener('click', function (e) {
     var btn = e.target.closest('[data-action]');
     if (!btn) return;
@@ -123,8 +240,15 @@
     var id = btn.dataset.id;
 
     if (action === 'read') {
-      fetch(API_BASE + '/api/messages/' + id + '/read', { method: 'PATCH' })
+      fetch(API_BASE + '/api/messages/' + id + '/read', {
+        method: 'PATCH',
+        credentials: 'include'
+      })
         .then(function (res) {
+          if (res.status === 401) {
+            showLoginView();
+            throw new Error('Unauthorized');
+          }
           if (!res.ok) throw new Error();
           return res.json();
         })
@@ -135,15 +259,24 @@
           applyFilter();
           showToast('Marked as read');
         })
-        .catch(function () {
-          showToast('Failed to update');
+        .catch(function (err) {
+          if (err.message !== 'Unauthorized') {
+            showToast('Failed to update');
+          }
         });
     }
 
     if (action === 'delete') {
       if (!confirm('Are you sure you want to delete this message?')) return;
-      fetch(API_BASE + '/api/messages/' + id, { method: 'DELETE' })
+      fetch(API_BASE + '/api/messages/' + id, {
+        method: 'DELETE',
+        credentials: 'include'
+      })
         .then(function (res) {
+          if (res.status === 401) {
+            showLoginView();
+            throw new Error('Unauthorized');
+          }
           if (!res.ok) throw new Error();
           return res.json();
         })
@@ -153,18 +286,24 @@
           applyFilter();
           showToast('Message deleted');
         })
-        .catch(function () {
-          showToast('Failed to delete');
+        .catch(function (err) {
+          if (err.message !== 'Unauthorized') {
+            showToast('Failed to delete');
+          }
         });
     }
   });
 
-  filterEl.addEventListener('change', applyFilter);
+  if (filterEl) {
+    filterEl.addEventListener('change', applyFilter);
+  }
 
-  refreshBtn.addEventListener('click', function () {
-    loadMessages();
-    showToast('Refreshed');
-  });
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', function () {
+      loadMessages();
+      showToast('Refreshed');
+    });
+  }
 
   function showToast(msg) {
     var existing = document.querySelector('.admin-toast');
@@ -182,5 +321,5 @@
     }, 2500);
   }
 
-  loadMessages();
+  checkAuthStatus();
 })();

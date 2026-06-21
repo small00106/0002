@@ -1,9 +1,14 @@
 var express = require('express');
+var session = require('express-session');
 var fs = require('fs');
 var path = require('path');
 
 var app = express();
 var PORT = process.env.PORT || 6002;
+
+var ADMIN_USER = process.env.ADMIN_USER || 'admin';
+var ADMIN_PASS = process.env.ADMIN_PASS || 'admin123';
+var SESSION_SECRET = process.env.SESSION_SECRET || 'verdant-studio-admin-secret-key';
 
 var DATA_FILE = path.join(__dirname, 'data', 'messages.json');
 
@@ -24,7 +29,24 @@ app.use(function (req, res, next) {
 });
 
 app.use(express.json());
-app.use(express.static(__dirname));
+app.use(session({
+  secret: SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    sameSite: 'lax',
+    maxAge: 24 * 60 * 60 * 1000
+  }
+}));
+
+app.use(express.static(__dirname, {
+  setHeaders: function (res, filePath) {
+    if (filePath.endsWith('admin.html')) {
+      res.setHeader('Cache-Control', 'no-store');
+    }
+  }
+}));
 
 function ensureDataDir() {
   var dir = path.join(__dirname, 'data');
@@ -50,6 +72,48 @@ function writeMessages(messages) {
   ensureDataDir();
   fs.writeFileSync(DATA_FILE, JSON.stringify(messages, null, 2), 'utf8');
 }
+
+function requireAuth(req, res, next) {
+  if (req.session && req.session.admin) {
+    return next();
+  }
+  res.status(401).json({ error: 'Unauthorized' });
+}
+
+app.post('/api/login', function (req, res) {
+  var username = (req.body.username || '').trim();
+  var password = (req.body.password || '').trim();
+
+  if (!username || !password) {
+    return res.status(400).json({ error: 'Username and password are required' });
+  }
+
+  if (username === ADMIN_USER && password === ADMIN_PASS) {
+    req.session.admin = true;
+    req.session.username = username;
+    return res.json({ success: true, username: username });
+  }
+
+  res.status(401).json({ error: 'Invalid username or password' });
+});
+
+app.post('/api/logout', function (req, res) {
+  req.session.destroy(function (err) {
+    if (err) {
+      return res.status(500).json({ error: 'Logout failed' });
+    }
+    res.clearCookie('connect.sid');
+    res.json({ success: true });
+  });
+});
+
+app.get('/api/auth/status', function (req, res) {
+  if (req.session && req.session.admin) {
+    res.json({ authenticated: true, username: req.session.username });
+  } else {
+    res.json({ authenticated: false });
+  }
+});
 
 app.post('/api/messages', function (req, res) {
   var name = (req.body.name || '').trim();
@@ -79,12 +143,12 @@ app.post('/api/messages', function (req, res) {
   res.json({ success: true, id: newMsg.id });
 });
 
-app.get('/api/messages', function (req, res) {
+app.get('/api/messages', requireAuth, function (req, res) {
   var messages = readMessages();
   res.json(messages);
 });
 
-app.patch('/api/messages/:id/read', function (req, res) {
+app.patch('/api/messages/:id/read', requireAuth, function (req, res) {
   var messages = readMessages();
   var target = messages.find(function (m) { return m.id === req.params.id; });
   if (!target) {
@@ -95,7 +159,7 @@ app.patch('/api/messages/:id/read', function (req, res) {
   res.json({ success: true });
 });
 
-app.delete('/api/messages/:id', function (req, res) {
+app.delete('/api/messages/:id', requireAuth, function (req, res) {
   var messages = readMessages();
   var idx = messages.findIndex(function (m) { return m.id === req.params.id; });
   if (idx === -1) {
@@ -113,5 +177,6 @@ app.get('/admin.html', function (req, res) {
 app.listen(PORT, function () {
   console.log('Backend server running at http://localhost:' + PORT);
   console.log('Admin panel: http://localhost:' + PORT + '/admin.html');
+  console.log('Admin login: ' + ADMIN_USER + ' / ' + ADMIN_PASS);
   console.log('API endpoint: http://localhost:' + PORT + '/api/messages');
 });
