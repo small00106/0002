@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Admin - Verdant Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<header class="admin-header">
+  <div class="admin-header__inner">
+    <a href="/" class="admin-header__logo">Verdant<span>.</span> Admin</a>
+    <div class="admin-header__stats">
+      <span class="admin-header__stat" id="statTotal">0 Messages</span>
+      <span class="admin-header__stat admin-header__stat--unread" id="statUnread">0 Unread</span>
+    </div>
+  </div>
+</header>
+
+<main class="admin-main">
+  <div class="admin-toolbar">
+    <div class="admin-toolbar__left">
+      <h1 class="admin-toolbar__title">Contact Messages</h1>
+    </div>
+    <div class="admin-toolbar__right">
+      <select class="admin-filter" id="filterSelect">
+        <option value="all">All Messages</option>
+        <option value="unread">Unread Only</option>
+        <option value="read">Read Only</option>
+      </select>
+      <button class="admin-btn admin-btn--secondary" id="refreshBtn">
+        <svg viewBox="0 0 24 24" width="16" height="16"><path d="M23 4v6h-6M1 20v-6h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Refresh
+      </button>
+    </div>
+  </div>
+
+  <div class="admin-list" id="messageList">
+    <div class="admin-empty" id="emptyState">
+      <svg viewBox="0 0 24 24" width="48" height="48"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <p>No messages yet</p>
+      <span>When visitors send messages from the contact page, they will appear here.</span>
+    </div>
+  </div>
+</main>
+
+<script src="js/admin.js"></script>
+</body>
+</html>

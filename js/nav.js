@@ -481,8 +481,34 @@
         showToast('Please enter a valid email');
         return;
       }
-      showToast('Message sent successfully!');
-      form.reset();
+      var btn = form.querySelector('.contact__submit');
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      fetch('http://localhost:6002/api/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name.value.trim(),
+          email: email.value.trim(),
+          message: message.value.trim()
+        })
+      })
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        if(data.error){
+          showToast(data.error);
+        } else {
+          showToast('Message sent successfully!');
+          form.reset();
+        }
+      })
+      .catch(function(){
+        showToast('Failed to send. Please try again.');
+      })
+      .finally(function(){
+        btn.disabled = false;
+        btn.innerHTML = 'Send Message<svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>';
+      });
     });
   }
 
